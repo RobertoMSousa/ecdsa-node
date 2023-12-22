@@ -66,3 +66,10 @@ _Hint_ - Use [nodemon](https://www.npmjs.com/package/nodemon) instead of `node` 
   recovery: 0
 }
 🚀 signatureString: dc751385a073a8b103dea54702166435a7569fcc57790777d7ca8adc5312d72f76edecc2650aa339238ad684bb24664ee9370b26cd238a73a5811e1c6c694e7c
+
+
+# TODO 
+- Need to handle the errors on the FE
+  - When address and signature do not match and not valid on load balance
+  - When address and signature do not match and not valid on transaction
+  - When not enough funds 
