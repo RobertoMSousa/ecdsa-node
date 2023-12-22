@@ -3,6 +3,11 @@ const app = express();
 const cors = require("cors");
 const port = 3042;
 
+const recoverWalletAddress =require("./utils/recoverAddress");
+const getWalletAddress =require("./utils/getWalletAddress");
+const convertSignature =require("./utils/convertSignature");
+const verifySignature =require("./utils/verifySignature");
+
 app.use(cors());
 app.use(express.json());
 
