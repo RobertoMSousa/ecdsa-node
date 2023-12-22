@@ -41,7 +41,22 @@ app.get("/balance/:address", (req, res) => {
 });
 
 app.post("/send", (req, res) => {
-  const { sender, recipient, amount } = req.body;
+  const { sender, recipient, amount, signature } = req.body;
+  const { r, s, recovery } = signature;
+  if (!r || !s || !recovery) {
+    return res.status(400).send({ message: "Missing parameters" });
+  }
+  console.log("🚀  roberto --  ~ file: index.js:47 ~ app.post ~ recipient:", recipient)
+  console.log("🚀  roberto --  ~ file: index.js:47 ~ app.post ~ signature:", signature)
+
+  const recoveredSig = convertSignature(r, s, recovery)
+  const publicKey = recoverWalletAddress(recoveredSig)
+  const address = getWalletAddress(publicKey);
+  console.log("🚀  roberto --  ~ file: index.js:34 ~ app.get ~ address:", address)
+  const isValid = verifySignature(recoveredSig, publicKey);
+  if (!isValid || address !== providedAddress) {
+    return res.status(200).send({ message: "Invalid signature", balance: 0 });
+  }
 
   setInitialBalance(sender);
   setInitialBalance(recipient);
