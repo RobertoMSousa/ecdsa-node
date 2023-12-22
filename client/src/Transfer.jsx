@@ -12,9 +12,7 @@ function Transfer({address, signature, setBalance }) {
     evt.preventDefault();
 
     const signatureSanitized = signatureSanitizer(signature)
-    console.log("🚀  roberto --  ~ file: Transfer.jsx:15 ~ transfer ~ signatureSanitized:", signatureSanitized)
     const signatureObject = JSON.parse(signatureSanitized);
-    console.log("🚀  roberto --  ~ file: Transfer.jsx:17 ~ transfer ~ signatureObject:", signatureObject)
 
     try {
       const {
@@ -27,8 +25,7 @@ function Transfer({address, signature, setBalance }) {
       });
       setBalance(balance);
     } catch (error) {
-      console.log("🚀  roberto --  ~ file: Transfer.jsx:30 ~ transfer ~ ex:", error)
-      // alert(ex.response.data.message);
+      alert(ex.response.data.message);
     }
   }
 
