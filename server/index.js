@@ -18,8 +18,25 @@ const balances = {
 };
 
 app.get("/balance/:address", (req, res) => {
-  const { address } = req.params;
+  const { r, s, recovery } = req.query;
+  const { address: providedAddress } = req.params;
+  console.log("🚀  roberto --  ~ file: index.js:23 ~ app.get ~ providedAddress:", providedAddress)
+  
+  if (!r || !s || !recovery) {
+    res.status(400).send({ message: "Missing parameters" });
+  }
+  // get the address from the signature
+  const signature = convertSignature(r, s, recovery)
+  const publicKey = recoverWalletAddress(signature)
+  const address = getWalletAddress(publicKey);
+  console.log("🚀  roberto --  ~ file: index.js:34 ~ app.get ~ address:", address)
+  const isValid = verifySignature(signature, publicKey);
+  if (!isValid || address !== providedAddress) {
+    return res.status(200).send({ message: "Invalid signature", balance: 0 });
+  }
+
   const balance = balances[address] || 0;
+
   res.send({ balance });
 });
 
